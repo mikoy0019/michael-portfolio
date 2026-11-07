@@ -8,7 +8,8 @@
     "lint": "eslint",
     "test": "playwright test",
     "preview": "npm run build && wrangler dev",
-    "deploy": "npm run build && wrangler deploy"
+    "deploy": "npm run build && wrangler deploy",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "next": "^16.4.5",
