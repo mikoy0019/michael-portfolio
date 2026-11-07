@@ -14,7 +14,7 @@ export const profile = {
   resumeUrl: "https://drive.google.com/file/d/1XGZvRAUmWyxmQkHE5tBZ7ePmhTL_4gFG/view?usp=drive_link",
   photo: "/michael.jpg",
   portrait: "/michael-portrait.webp",
-  siteUrl: "https://michael-portfolio-gamma-red.vercel.app",
+  siteUrl: "https://michael-portfolio.michaeltejada-work.workers.dev",
 } as const;
 
 export type Profile = typeof profile;

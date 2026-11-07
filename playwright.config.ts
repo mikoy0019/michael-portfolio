@@ -7,6 +7,7 @@ export default defineConfig({
   testDir: "./tests",
   fullyParallel: false,
   workers: 2,
+  retries: 0, // a retry would overwrite the video of the real failure
   timeout: 90_000,
   reporter: [["line"]],
   outputDir: RUN_ID ? `./e2e-artifacts/${RUN_ID}` : "./test-results",
