@@ -28,16 +28,17 @@ test.describe("resume details", () => {
     }
   });
 
-  test("the role the resume leaves out stays on the site", async ({ page }) => {
+  test("the NixGen co-founder role is not listed (Michael asked for it to be hidden)", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("#experience [data-role]", { hasText: "NixGen Solutions" })).toHaveCount(1);
+    await expect(page.locator("#experience [data-role]", { hasText: "NixGen Solutions" })).toHaveCount(0);
+    await expect(page.locator("#experience [data-role]")).toHaveCount(3);
   });
 });
 
 test.describe("real app links", () => {
   test("the creator platform links to the live app from the homepage", async ({ page }) => {
     await page.goto("/");
-    const card = page.locator("#work article", { hasText: "Creator Operations Platform" });
+    const card = page.locator("#work article", { hasText: "Alpine Creator Scout" });
     await expect(card.getByRole("link", { name: /Live app/ })).toHaveAttribute("href", ALPINE);
   });
 

@@ -14,7 +14,7 @@ test.describe("section layout", () => {
   test("visuals in More Projects line up on desktop", async ({ page }, info) => {
     test.skip(info.project.name !== "desktop");
     await page.goto("/");
-    const heights = await page.locator("#more article .shot").evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().height)));
+    const heights = await page.locator("#more article [data-visual]").evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().height)));
     expect(heights).toHaveLength(4);
     expect(new Set(heights).size).toBe(1);
   });
@@ -48,9 +48,21 @@ test.describe("section layout", () => {
     test.skip(info.project.name !== "desktop");
     await page.goto("/");
     const roles = await page.locator("#experience [data-role]").evaluateAll((els) => els.map((e) => e.getBoundingClientRect()).map((r) => ({ x: Math.round(r.x), y: Math.round(r.y) })));
-    expect(roles).toHaveLength(4);
+    expect(roles).toHaveLength(3);
     expect(roles[0].y).toBe(roles[1].y);
     expect(roles[1].x).toBeGreaterThan(roles[0].x + 300);
+  });
+
+  test("flagship cards show real screens, Alpine with its phone portal inset", async ({ page }) => {
+    await page.goto("/");
+    const alpine = page.locator("#work article", { hasText: "Alpine Creator Scout" });
+    await expect(alpine.locator('img[src*="alpine-creator-scout/discover"]')).toHaveCount(1);
+    await expect(alpine.locator('.visual-inset.is-portrait img[src*="creator-portal"]')).toHaveCount(1);
+    await expect(alpine.getByText(/withheld/i)).toHaveCount(0);
+    const deskdev = page.locator("#work article", { hasText: "DeskDev Studio" });
+    await expect(deskdev.locator('img[src*="deskdev-studio/workspace"]')).toHaveCount(1);
+    await expect(deskdev.locator('.visual-inset img[src*="deskdev-studio/home"]')).toHaveCount(1);
+    await expect(page.locator("#work [data-visual]")).toHaveCount(4);
   });
 
   test("diagrams are never clipped", async ({ page }) => {

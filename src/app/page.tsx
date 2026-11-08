@@ -25,7 +25,7 @@ export default function HomePage() {
         id="work"
         eyebrow="Selected work"
         title="Products I've designed, built and shipped."
-        intro="Four systems I built end to end, from the database schema to the deploy pipeline. Client projects are anonymised."
+        intro="Four systems I built end to end, from the database schema to the deploy pipeline. Screens show demo data; one client build stays anonymised."
       >
         <div className="grid gap-6">
           {flagships.map((s, i) => (

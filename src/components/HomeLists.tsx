@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { clientSites, experience, miniBuilds, pipelines, education } from "@/content/projects";
 import { ExternalLink } from "./Section";
+import { Frame } from "./ShotFrame";
 
 export function SystemMap() {
   return (
@@ -35,8 +35,8 @@ export function MiniBuildGrid() {
         const href = b.url ?? b.code;
         const body = (
           <>
-            <div className="m-2.5 shot aspect-[16/10]">
-              <Image src={b.image} alt={`${b.name} screenshot`} width={800} height={500} sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw" className="h-full w-full object-cover object-top" />
+            <div className="m-3">
+              <Frame shot={{ src: b.image, alt: `${b.name} screenshot`, w: 1600, h: 1000 }} fill className="aspect-[16/10]" sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw" />
             </div>
             <div className="px-5 pb-5 pt-2">
               <h3 className="flex items-center gap-1.5 font-display text-[17px] font-semibold text-ink">
@@ -53,7 +53,7 @@ export function MiniBuildGrid() {
           </>
         );
         return (
-          <li key={b.name} className="card overflow-hidden">
+          <li key={b.name} className="card card-lift overflow-hidden">
             {href ? (
               <a href={href} target="_blank" rel="noopener" className="group block no-underline">{body}</a>
             ) : (
@@ -85,7 +85,7 @@ export function ClientSitesList() {
 
 export function ExperienceTimeline() {
   return (
-    <ol className="grid gap-4 md:grid-cols-2">
+    <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {experience.map((e) => (
         <li key={e.role + e.company} data-role className="card flex flex-col gap-2 p-6 md:p-7">
           <p className="font-mono text-[12.5px] text-ink-muted">{e.period}</p>

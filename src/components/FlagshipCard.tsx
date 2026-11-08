@@ -1,25 +1,25 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { CaseStudy } from "@/content/projects";
 import { ArchitectureDiagram } from "./ArchitectureDiagram";
 import { ExternalLink, Tags } from "./Section";
+import { ShotStack, hostOf } from "./ShotFrame";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
 export function FlagshipCard({ study, index, total }: { study: CaseStudy; index: number; total: number }) {
-  const shot = study.shots[0];
+  const lead = study.shots[study.cardVisual?.lead ?? 0];
+  const insetIndex = study.cardVisual?.inset ?? (study.shots.length > 1 ? 1 : undefined);
+  const inset = insetIndex === undefined ? undefined : study.shots[insetIndex];
   const reversed = index % 2 === 1;
 
   return (
-    <article className="card overflow-hidden">
+    <article className="card card-lift overflow-hidden">
       <div className="grid md:grid-cols-[1.35fr_1fr]">
-        <div className={`p-3 md:p-4 ${reversed ? "md:order-2" : ""}`}>
-          {shot ? (
-            <div className="shot aspect-[16/10]">
-              <Image src={shot.src} alt={shot.alt} width={1600} height={1000} sizes="(min-width: 768px) 640px, 100vw" className="h-full w-full object-cover object-top" />
-            </div>
+        <div className={`p-4 md:p-6 ${reversed ? "md:order-2" : ""}`}>
+          {lead ? (
+            <ShotStack lead={lead} inset={inset} label={hostOf(study.links.live ?? study.links.demo) ?? study.title} sizes="(min-width: 768px) 640px, 100vw" />
           ) : (
-            <div className="shot h-full lg:aspect-[16/10] lg:h-auto">
+            <div className="shot shot-diagram h-full lg:aspect-[16/10] lg:h-auto" data-visual>
               <ArchitectureDiagram nodes={study.architecture.nodes} label={study.title} />
             </div>
           )}

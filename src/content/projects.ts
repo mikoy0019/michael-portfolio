@@ -1,7 +1,7 @@
 /* All portfolio content. Pages render from here; no copy lives in JSX.
    Client work stays anonymised unless Michael has asked for its live link to be shown. */
 
-export type Shot = { src: string; alt: string };
+export type Shot = { src: string; alt: string; w?: number; h?: number; portrait?: boolean };
 export type Links = { live?: string; liveLabel?: string; code?: string; demo?: string; demoNote?: string };
 
 export type CaseStudy = {
@@ -19,6 +19,8 @@ export type CaseStudy = {
   stack: string[];
   outcomes: string[];
   shots: Shot[];
+  /** Which shots the homepage card shows: a lead image and an optional smaller inset over its corner. Defaults to the first two. */
+  cardVisual?: { lead?: number; inset?: number };
   links: Links;
 };
 
@@ -26,8 +28,8 @@ export const flagships: CaseStudy[] = [
   {
     slug: "deskdev-studio",
     title: "DeskDev Studio",
-    tagline: "A client-operations workspace my studio runs on, delivered as web, mobile and Windows apps from one codebase.",
-    kind: "Own product",
+    tagline: "The client-operations workspace NixGen Solutions runs on, plus its public studio site, delivered as web, mobile and Windows apps from one codebase.",
+    kind: "Own product · NixGen Solutions",
     role: "Lead developer: product, design, backend, infra",
     timeframe: "2025 to present",
     status: "In production",
@@ -72,17 +74,17 @@ export const flagships: CaseStudy[] = [
       "Runbooks for operations, backup and restore, auth and DNS cutover",
     ],
     shots: [
-      { src: "/work/deskdev-studio/workspace.png", alt: "DeskDev workspace home: open tasks, meetings, due tasks and recent activity (demo data)" },
-      { src: "/work/deskdev-studio/home.png", alt: "NixGen Solutions studio site, served by the same DeskDev app" },
+      { src: "/work/deskdev-studio/workspace.png", alt: "DeskDev workspace home: open tasks, meetings, due tasks and recent activity (demo data)", w: 2160, h: 1350 },
+      { src: "/work/deskdev-studio/home.png", alt: "NixGen Solutions studio site, served by the same DeskDev app", w: 2160, h: 1350 },
     ],
     links: { live: "https://nixgensolutions.com", demo: "https://deskdev-demo.vercel.app", demoNote: "Demo sign-in: admin@deskdev.local / admin", code: "https://github.com/mikoy0019/deskdev" },
   },
   {
     slug: "creator-ops-platform",
-    title: "Creator Operations Platform",
-    tagline: "Creator discovery, AI-assisted vetting, campaigns and commission payouts for a consumer brand, all in one system.",
-    kind: "Client work",
-    role: "Lead developer",
+    title: "Alpine Creator Scout",
+    tagline: "Creator discovery, AI-assisted vetting, a campaign pipeline and commission payouts for Alpine Provisions, an outdoor body-care brand, all in one system.",
+    kind: "Client work · Alpine Provisions Co.",
+    role: "Lead developer: product, backend, automations",
     timeframe: "2026",
     status: "In production",
     problem:
@@ -124,7 +126,14 @@ export const flagships: CaseStudy[] = [
       "110+ database migrations",
       "The full creator lifecycle, from discovery to payout, in one system",
     ],
-    shots: [],
+    shots: [
+      { src: "/work/alpine-creator-scout/discover.png", alt: "Alpine Creator Scout, Discover: the photo-led creator yearbook with fit scores, filters and approval stages (demo data)", w: 1280, h: 720 },
+      { src: "/work/alpine-creator-scout/pipeline.png", alt: "Creator pipeline board from sourcing to fulfilment, with duplicate shipments blocked (demo data)", w: 1280, h: 720 },
+      { src: "/work/alpine-creator-scout/weekly-report.png", alt: "Weekly report computed live from the pipeline: attributed revenue, funnel and top creators (demo data)", w: 1280, h: 720 },
+      { src: "/work/alpine-creator-scout/commissions.png", alt: "Commission ledger computed from attributed orders with refunds excluded (demo data)", w: 1280, h: 720 },
+      { src: "/work/alpine-creator-scout/creator-portal.png", alt: "The creator portal on a phone: climb progress, kit status and the campaign brief (demo data)", w: 440, h: 520, portrait: true },
+    ],
+    cardVisual: { lead: 0, inset: 4 },
     links: { live: "https://creators.alpineprovisionsco.com", liveLabel: "Live app (sign-in required)" },
   },
   {
@@ -174,7 +183,7 @@ export const flagships: CaseStudy[] = [
       "A secrets check in CI and documented architecture decisions",
     ],
     shots: [
-      { src: "/work/clinic-booking-platform/search.png", alt: "Patient-facing doctor search with specialty and location filters (synthetic data)" },
+      { src: "/work/clinic-booking-platform/search.png", alt: "Patient-facing doctor search with specialty and location filters (synthetic data)", w: 2160, h: 1350 },
     ],
     links: {},
   },
@@ -218,8 +227,8 @@ export const flagships: CaseStudy[] = [
       "Double-booking prevented by a database constraint, not application code",
     ],
     shots: [
-      { src: "/work/dinkup/court-booking.png", alt: "DinkUp court booking screen with an hourly slot grid (demo data)" },
-      { src: "/work/dinkup/open-play.png", alt: "DinkUp open play sessions with live queue counts (demo data)" },
+      { src: "/work/dinkup/court-booking.png", alt: "DinkUp court booking screen with an hourly slot grid (demo data)", w: 2240, h: 1400 },
+      { src: "/work/dinkup/open-play.png", alt: "DinkUp open play sessions with live queue counts (demo data)", w: 2240, h: 1400 },
     ],
     links: { live: "https://dinkup-demo.vercel.app", liveLabel: "Try the live demo", code: "https://github.com/mikoy0019/dinkup-app" },
   },
@@ -262,7 +271,7 @@ export const secondary: SecondaryProject[] = [
       "A Windows app for checking a used laptop before you buy it. It verifies the hardware is genuine, estimates age and wear, runs CPU/GPU/memory/disk benchmarks and a stress test, then gives one clear verdict.",
     stack: ["Electron", "PowerShell", "electron-builder"],
     links: { code: "https://github.com/mikoy0019/laptop-checker" },
-    shot: { src: "/work/laptop-checker/overview.png", alt: "Laptop Checker overview screen with verdict" },
+    shot: { src: "/work/laptop-checker/overview.png", alt: "Laptop Checker overview screen with verdict", w: 1360, h: 900 },
   },
 ];
 
@@ -346,12 +355,6 @@ export const stackGroups = [
 ];
 
 export const experience = [
-  {
-    role: "Developer & Co-Founder",
-    company: "NixGen Solutions",
-    period: "2025 to present",
-    body: "I co-run a small web and automation studio and build its products and client systems end to end: full-stack web apps, mobile and desktop clients, Supabase backends and n8n automations. Recent work includes a creator-operations platform for a consumer brand and a multi-app directory platform.",
-  },
   {
     role: "Web Designer & Developer",
     company: "Freelance",

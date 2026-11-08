@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { CaseStudy } from "@/content/projects";
 import { ArchitectureDiagram } from "./ArchitectureDiagram";
 import { ExternalLink, Tags } from "./Section";
+import { Frame, hostOf } from "./ShotFrame";
 
 export function CaseStudyLayout({ study, next }: { study: CaseStudy; next: CaseStudy }) {
   const [hero, ...rest] = study.shots;
@@ -43,11 +43,11 @@ export function CaseStudyLayout({ study, next }: { study: CaseStudy; next: CaseS
 
       <div className="wrap mt-12">
         {hero ? (
-          <div className="shot">
-            <Image src={hero.src} alt={hero.alt} width={1600} height={1000} priority sizes="(min-width: 1180px) 1116px, 100vw" className="h-auto w-full" />
+          <div className="visual-hero">
+            <Frame shot={hero} label={hostOf(study.links.live ?? study.links.demo) ?? study.title} priority sizes="(min-width: 1180px) 1116px, 100vw" />
           </div>
         ) : (
-          <div className="shot"><ArchitectureDiagram nodes={study.architecture.nodes} label={study.title} /></div>
+          <div className="shot shot-diagram"><ArchitectureDiagram nodes={study.architecture.nodes} label={study.title} /></div>
         )}
       </div>
 
@@ -61,7 +61,7 @@ export function CaseStudyLayout({ study, next }: { study: CaseStudy; next: CaseS
         </Block>
 
         <Block title="Architecture">
-          {hero && <div className="mb-6"><div className="shot"><ArchitectureDiagram nodes={study.architecture.nodes} label={study.title} /></div></div>}
+          {hero && <div className="mb-6"><div className="shot shot-diagram"><ArchitectureDiagram nodes={study.architecture.nodes} label={study.title} withheld={false} /></div></div>}
           <List items={study.architecture.bullets} />
         </Block>
 
@@ -86,11 +86,9 @@ export function CaseStudyLayout({ study, next }: { study: CaseStudy; next: CaseS
       </div>
 
       {rest.length > 0 && (
-        <div className="wrap mt-20 grid gap-6 md:grid-cols-2">
+        <div className="wrap mt-20 grid gap-6 md:grid-cols-2" data-gallery>
           {rest.map((s) => (
-            <figure key={s.src} className="shot">
-              <Image src={s.src} alt={s.alt} width={1600} height={1000} sizes="(min-width: 768px) 560px, 100vw" className="h-auto w-full" />
-            </figure>
+            <Frame key={s.src} shot={s} fill className="aspect-[16/10]" sizes="(min-width: 768px) 560px, 100vw" />
           ))}
         </div>
       )}
