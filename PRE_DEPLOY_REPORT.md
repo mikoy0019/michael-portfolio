@@ -30,3 +30,14 @@ What changed since the last gate (19a4ed0): Alpine Creator Scout case study with
 **GO.** Ship the same build to both hosts, Cloudflare via `npm run deploy`, Vercel via `vercel deploy --prebuilt --prod` (promote after the preview checks if the CLI upload is flaky).
 
 Post-deploy checks (both hosts): HTTP 200 on `/`, `/work/creator-ops-platform`, `/work/deskdev-studio`; 404 on an unknown route; `/favicon.ico` → `/icon.svg`; `/about` → `/#experience`; the five security headers present; canonical, `robots.txt` and `sitemap.xml` advertise `https://michael-portfolio-gamma-red.vercel.app`; the Alpine screenshots return 200.
+
+## Post-gate verification on the Vercel preview (2026-11-08)
+
+Preview of this exact build (`vercel build` → `vercel deploy --prebuilt --archive=tgz`): https://michael-portfolio-9fdu99q9k-nixgensolutions-collabs-projects.vercel.app (status Ready; protected by Vercel Authentication, checked through `vercel curl`).
+
+- 200: `/`, `/work/creator-ops-platform`, `/work/deskdev-studio`, `/sitemap.xml`, `/robots.txt`, `/opengraph-image` (image/png), `/work/alpine-creator-scout/discover.png` and `creator-portal.png` (image/png). 404 on `/no-such-page`.
+- Redirects: `/favicon.ico` 307, `/about` 308 → `/#experience`, `/contact` 308.
+- Headers on `/`: CSP (as specified), HSTS 2 y incl. subdomains, X-Content-Type-Options nosniff, Referrer-Policy strict-origin-when-cross-origin, Permissions-Policy camera/mic/geo off; HTML `public, max-age=0, must-revalidate`; `/_next/static/*.css` `public,max-age=31536000,immutable`; `X-Vercel-Cache: HIT`.
+- Canonical and sitemap advertise `https://michael-portfolio-gamma-red.vercel.app`. Page HTML contains "Alpine Creator Scout" and the portal inset, and no "Developer & Co-Founder".
+
+Production promotion (`vercel promote <preview-url>` or `vercel deploy --prebuilt --prod`) and the Cloudflare `npm run deploy` are blocked for the agent by the auto-mode permission policy and are owner steps. Repeat the checks above against the production URLs after promoting.
