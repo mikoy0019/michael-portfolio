@@ -1,0 +1,14 @@
+# Keep the CLI upload to source + public assets. The build runs on Vercel.
+node_modules
+.next
+out
+.wrangler
+e2e-artifacts
+e2e-report
+test-results
+playwright-report
+dadevops
+docs
+.claude
+*.tsbuildinfo
+Central_Hub_Cloudflare_Enhanced_Master_Roadmap.md

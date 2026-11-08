@@ -38,7 +38,7 @@ test.describe("selected work", () => {
 
   test("project images are large", async ({ page }, info) => {
     await page.goto("/");
-    const box = (await page.locator("#work article .shot").first().boundingBox())!;
+    const box = (await page.locator("#work article [data-visual]").first().boundingBox())!;
     expect(box.width).toBeGreaterThanOrEqual(info.project.name === "phone" ? 320 : 540);
   });
 
@@ -46,9 +46,9 @@ test.describe("selected work", () => {
     await page.goto("/");
     const overlaps = await page.evaluate(() =>
       [...document.querySelectorAll("#work article")].flatMap((a) => {
-        const img = a.querySelector(".shot")!.getBoundingClientRect();
+        const img = a.querySelector("[data-visual]")!.getBoundingClientRect();
         return [...a.querySelectorAll("h3, p")].filter((t) => {
-          if (t.closest(".shot")) return false;
+          if (t.closest("[data-visual]")) return false;
           const r = t.getBoundingClientRect();
           return r.left < img.right && r.right > img.left && r.top < img.bottom && r.bottom > img.top;
         }).map((t) => t.textContent?.slice(0, 30));
