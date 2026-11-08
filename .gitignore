@@ -28,7 +28,20 @@ yarn-error.log*
 # vercel
 .vercel
 
+# cloudflare
+.wrangler
+
 # typescript
 *.tsbuildinfo
 
 .vercel
+
+# playwright
+/test-results/
+/playwright-report/
+
+# E2E video proof
+/e2e-artifacts
+
+# nested separate project (has its own deps / version control)
+/dadevops/
